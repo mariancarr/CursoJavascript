@@ -44,63 +44,97 @@ productos.push(new inventario(24, "postre", "flan con crema", "", 300, "vegetari
 
 productos.forEach((p) => console.log(p.producto, p.ingredientes, p.tamano,":.............$",  p.precio))
 
-precioMinimo = parseFloat(prompt("Escriba el precio minimo que esta buscando"))
-precioMaximo = parseFloat(prompt("Ahora escriba el precio maximo que quiera"))
+busqueda = prompt("Que quiere comer?. Ordenar los productos de mayor precio a menor precio escribiendo +, o al reves escribiendo -. Si quiere agregar un rango de precios escriba la palabra RANGO" ).toLowerCase()
+
+
 function rangoPrecios(){
-    if(isNaN(precioMinimo) || isNaN(precioMaximo) || precioMinimo < 0 || precioMaximo < 0){
-        while(isNaN(precioMinimo) || precioMinimo < 0){
-            alert("El valor MINIMO introducido es invalido")
-            precioMinimo = parseFloat(prompt("Vuelva a ingresar el precio MINIMO"))
-        }    
+    precioMinimo = parseFloat(prompt("Escriba el precio minimo que esta buscando(a partir de 0)"))
+    precioMaximo = parseFloat(prompt("Ahora escriba el precio maximo que quiera(a partir de 100)"))
+        if(isNaN(precioMinimo) || isNaN(precioMaximo) || precioMinimo < 0 || precioMaximo < 100){
+            while(isNaN(precioMinimo) || precioMinimo < 0){
+                alert("El valor MINIMO introducido es invalido")
+                precioMinimo = parseFloat(prompt("Vuelva a ingresar el precio MINIMO"))
+            }    
 
-        while(isNaN(precioMaximo) || precioMaximo < 0){
-            alert("El valor MAXIMO introducido es invalido")
-            precioMaximo = parseFloat(prompt("Vuelva a ingresar el precio MAXIMO"))
-        }  
-    }
+            while(isNaN(precioMaximo) || precioMaximo < 100){
+                alert("El valor MAXIMO introducido es invalido")
+                precioMaximo = parseFloat(prompt("Vuelva a ingresar el precio MAXIMO"))
+            }  
+        }
 
-    filtro = productos.filter((p) => p.precio < precioMaximo && p.precio > precioMinimo)
-    console.log(" \n PRODUCTOS DENTRO DEL RANGO DE PRECIOS  $" + precioMinimo + " - $" + precioMaximo)
-    filtro.forEach((f) =>
-    console.log(f.producto, f.ingredientes, f.tamano,":.............$",  f.precio))
+        filtro = productos.filter((p) => p.precio <= precioMaximo && p.precio >= precioMinimo)
+        console.log(" \n PRODUCTOS DENTRO DEL RANGO DE PRECIOS  $" + precioMinimo + " - $" + precioMaximo)
+        filtro.forEach((f) =>
+        console.log(f.producto, f.ingredientes, f.tamano,":.............$",  f.precio))
 }
 
-rangoPrecios()
+if (busqueda === "rango"){
+    rangoPrecios()
+    busqueda = prompt("Que quiere comer?. Ordenar los productos de mayor precio a menor precio escribiendo +, o al reves escribiendo -.")
+}
 
-busqueda = prompt("Que quiere comer?. Ordenar los productos de mayor precio a menor precio escribiendo +, o al reves escribiendo -").toLowerCase()
+ 
+ordenar()
+filtrar()
 
 function ordenar(){
-    if(busqueda === "-"){
-        filtro = filtro.sort((a, b) => a.precio - b.precio)
-        console.log(" \n LISTA PRODUCTOS ORDENADA DE MENOR A MAYOR")
-        filtro.forEach((f) =>
-        console.log(f.producto, f.ingredientes, f.tamano,":.............$",  f.precio))
-    }
-
-    else if(busqueda === "+"){
-        filtro = filtro.sort((a, b) => b.precio - a.precio)
-        console.log(" \n LISTA PRODUCTOS ORDENADA DE MAYOR A MENOR")
-        filtro.forEach((f) =>
-        console.log(f.producto, f.ingredientes, f.tamano,":.............$",  f.precio))
-    } 
+        if(busqueda === "-"){
+            if(filtro.length === 0){
+                filtro = productos.sort((a, b) => a.precio - b.precio)
+                console.log(" \n LISTA PRODUCTOS ORDENADA DE MENOR A MAYOR")
+                filtro.forEach((f) =>
+                console.log(f.producto, f.ingredientes, f.tamano,":.............$",  f.precio))
+            }
+        
+            else{
+            filtro = filtro.sort((a, b) => a.precio - b.precio)
+            console.log(" \n LISTA PRODUCTOS ORDENADA DE MENOR A MAYOR")
+            filtro.forEach((f) =>
+            console.log(f.producto, f.ingredientes, f.tamano,":.............$",  f.precio))
+            
+            }
+        }
+        else if(busqueda === "+"){
+            if(filtro.length === 0){
+                filtro = productos.sort((a, b) => a.precio - b.precio)
+                console.log(" \n LISTA PRODUCTOS ORDENADA DE MENOR A MAYOR")
+                filtro.forEach((f) =>
+                console.log(f.producto, f.ingredientes, f.tamano,":.............$",  f.precio))
+            }
+        
+            else{
+            filtro = filtro.sort((a, b) => a.precio - b.precio)
+            console.log(" \n LISTA PRODUCTOS ORDENADA DE MAYOR A MENOR")
+            filtro.forEach((f) =>
+            console.log(f.producto, f.ingredientes, f.tamano,":.............$",  f.precio))
+            }
+        } 
       
     }
 
 function filtrar(){
     if (busqueda !== "+" && busqueda !== "-"){
         console.log("\n RESULTADOS DE BUSQUEDA SIMILARES A  " + busqueda)
-            filtro = filtro.filter(f =>{
+        if (filtro.length === 0){
+            filtro = productos.filter(f =>{
+                return f.producto.includes(busqueda) || f.ingredientes.includes(busqueda) || f.vegetariana.includes(busqueda)
+            })
+            filtro.forEach((f) =>
+            console.log(f.producto, f.ingredientes, f.tamano,":.............$",  f.precio))
+        }
+
+        else {
+            coincidencias = filtro.filter(f =>{
                 return f.producto.includes(busqueda) || f.ingredientes.includes(busqueda) || f.vegetariana.includes(busqueda)
                 } )
-                if (filtro.length === 0){
+                if (coincidencias.length === 0){
                     console.log("Lo siento. No encontramos lo que buscas")
                 }
             
-                filtro.forEach((f) =>
+                coincidencias.forEach((f) =>
                 console.log(f.producto, f.ingredientes, f.tamano,":.............$",  f.precio))
+        }
     }
-}
+}    
 
 
-ordenar()
-filtrar()
