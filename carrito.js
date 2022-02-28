@@ -22,7 +22,7 @@ for (const p of productos){
     
 }
 
-let busqueda = prompt("Que quiere comer? Tenemos pizzas, empanadas y bebias no alcoholicas (debajo de cada una se muestra el precio). O si prefiere puede ordenar los productos de mayor precio a menor precio escribiendo +, o al reves escribiendo -").toLowerCase()
+let busqueda = prompt("Que quiere comer? Tenemos pizzas, empanadas y bebias no alcoholicas. O si prefiere puede ordenar los productos de mayor precio a menor precio escribiendo +, o al reves escribiendo -").toLowerCase()
 
 function ordenar(){
     if(busqueda === "-"){
