@@ -1,5 +1,6 @@
 const productos = []
 let carrito = []
+
 class inventario{
     constructor(id, producto, ingredientes, tamano, precio, stock, vegetariana){
         this.id = id.toFixed();
@@ -11,6 +12,7 @@ class inventario{
         this.vegetariana = vegetariana.toLowerCase();
     }
 }
+
 productos.push(new inventario(1, "pizza", "muzzarella", "grande", 800, 15, "vegetariana"))
 productos.push(new inventario(2, "pizza", "jamon y muzzarella", "grande", 970, 15, "no"))
 productos.push(new inventario(3, "pizza", "fugaza", "grande", 900, 15, "vegetariana"))

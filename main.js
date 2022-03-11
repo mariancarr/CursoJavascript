@@ -5,6 +5,7 @@ let minimo = 0
 function init(){
     cargarProductos()
     btnAccionRango()
+    btnAccionFiltro()
 }
 
 function cargarProductos(){
@@ -86,8 +87,24 @@ function tomarValores(){
 }
 
 function rangoPrecios(){
-    rango= productos.filter((p) => p.precio <= maximo && p.precio >= minimo)
-    
-    cargarProductos()
+    (maximo && minimo).onchange = () => rango = productos.filter((p) => p.precio <= maximo && p.precio >= minimo)
+    rango.forEach((r) =>
+    console.table(r.producto, r.ingredientes, r.tamano,":.............$",  r.precio))
+}
+
+function btnAccionFiltro(){
+    const btnFiltro = document.getElementById("btnBuscarCoincidencias")
+    btnFiltro.addEventListener("click", () => buscarCoincidencias())
+}
+
+function buscarCoincidencias(){
+    let filtro = document.getElementById("buscarCoincidencias").value
+    let coincidencias = productos.filter((p) =>{
+        return p.producto.includes(filtro) || p.ingredientes.includes(filtro) || p.vegetariana.includes(filtro)})
+    coincidencias.forEach((c) =>
+    console.log(c.producto, c.ingredientes, c.tamano,":.............$",  c.precio))
+    carrito.push(coincidencias)
+    console.table(carrito)
+
 }
 
