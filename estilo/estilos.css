@@ -1,0 +1,59 @@
+#gridProductos{
+    display: flex;
+    flex: row;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+}
+
+.card{
+    height:450px;
+}
+
+.card-body{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    text-align: center;
+    
+}
+
+.card-img-top{
+    width: 80% ;
+    height: auto;
+}
+
+.buttonsProducto{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+#dropdownMenuButton{
+    font-size: 0.8rem;
+    background-color: white;
+    color: black;
+    border: none;
+}
+
+#dropdownMenuButton:hover{
+    background-color: aliceblue;
+}
+
+#ordenarDescendente{
+    font-size: 0.8rem;
+}
+
+#ordenarAscendente{
+    font-size: 0.8rem;
+}
+
+#row-ordenar{
+    display: flex;
+    justify-content: end;
+    margin-bottom: 20px;
+}
+
