@@ -57,3 +57,56 @@
     margin-bottom: 20px;
 }
 
+.tituloCarrito{
+    margin-top: 40px;
+    text-align: center;
+}
+
+#carritoCard{
+    height: auto;
+    
+}
+
+#rowCarrito{
+    width: 50%;
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+    height: auto;
+    width: auto;
+}
+
+#productoCarrito{
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+}
+
+.buttonsCarrito{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.btnsC{
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+}
+#precioCarritoUnidad{
+    display: flex;
+    flex-direction: row;
+}
+
+#totalTxt{
+    font-size: 1.3rem;
+    font-weight: 900;
+}
+
+#totalTxtPrecio{
+    color: rgb(255, 73, 73);
+    font-size: 1.3rem;
+    font-weight: 600;
+}
