@@ -19,11 +19,11 @@ function cargarProductos(array){
         const col = document.createElement("div")
         col.setAttribute("class", "col-3")
         col.innerHTML = 
-                        `<div class = "card"  style="width: 18rem">
+                        `<div class = "card"  style="width: 18rem" id="cardProd">
                             <div class = "card-body">
-                                <img src = "${a.img}" class="card-img-top" id="img-productos${a.id}"> 
-                                <h5 id="img-productos${a.id}" class="card-title">${a.producto}</h5>
-                                <p  id="img-productos${a.id}" class = "card-text"> ${a.especificaciones}</p>
+                                <img src = "${a.img}" class="card-img-top" id="productosImg${a.id}"> 
+                                <h5 id="productosTit${a.id}" class="card-title">${a.producto}</h5>
+                                <p  id="productosTxt${a.id}" class = "card-text"> ${a.especificaciones}</p>
                                 <span> $ ${a.precio}</span>
                                 <div class="buttonsProducto">
                                     ${disponible(a,a.id)}
@@ -36,8 +36,14 @@ function cargarProductos(array){
                                      
         nodoProductos.appendChild(col) 
 
-        const btnProducto = document.getElementById(`img-productos${a.id}`)
+        let btnProducto = document.getElementById(`productosImg${a.id}`)
         btnProducto.addEventListener("click", () => {mostrarProducto(a.id)})
+
+        let btnProducto2 = document.getElementById(`productosTit${a.id}`)
+        btnProducto2.addEventListener("click", () => {mostrarProducto(a.id)})
+
+        let btnProducto3 = document.getElementById(`productosTxt${a.id}`)
+        btnProducto3.addEventListener("click", () => {mostrarProducto(a.id)})
 
         const btnEliminar = document.getElementById(`eliminar${a.id}`)
         btnEliminar.addEventListener("click", () => {eliminarCarrito(a.id)})   
@@ -129,14 +135,14 @@ function cargarCarrito(array){
         card.innerHTML = 
                         `
                             <div class= "row" id="rowCarrito">
-                                <div class= "col-3" id="imgCarrito">
-                                    <img src = "${c.img}" class="img-fluid">
+                                <div class= "col-5" id="imgCarrito">
+                                    <img src = "${c.img}" class="img-fluid" id="productosCartImg${c.id}">
                                 </div>
-                                <div class= "col-6" >
+                                <div class= "col-5" >
                                     <div class = "card-body" id="productoCarrito">
                                         <div class="textoCarrito">
-                                            <h5 class="card-title">${c.producto}</h5>
-                                            <p class = "card-text"> ${c.especificaciones}</p>
+                                            <h5 class="card-title" id="productosCartTit${c.id}">${c.producto}</h5>
+                                            <p class = "card-text" id="productosCartTxt${c.id}"> ${c.especificaciones}</p>
                                         </div>    
                                         
                                         <div class="buttonsCarrito">
@@ -166,6 +172,15 @@ function cargarCarrito(array){
                         `
                                      
         divCarrito.appendChild(card)   
+
+        let btnProducto1 = document.getElementById(`productosCartImg${c.id}`)
+        btnProducto1.addEventListener("click", () => {mostrarProducto(c.id)})
+
+        let btnProducto2 = document.getElementById(`productosCartTit${c.id}`)
+        btnProducto2.addEventListener("click", () => {mostrarProducto(c.id)})
+
+        let btnProducto3 = document.getElementById(`productosCartTxt${c.id}`)
+        btnProducto3.addEventListener("click", () => {mostrarProducto(c.id)})
 
         let btnEliminarCarrito = document.getElementById(`eliminarCarrito${c.id}`)
         btnEliminarCarrito.addEventListener("click",() =>{ eliminarCarrito(c.id)})
