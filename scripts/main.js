@@ -203,14 +203,17 @@ function agregarCarrito(idProducto){
     if(productoEnCarrito !== undefined){
        let idx = carrito.indexOf(productoEnCarrito)
        if(productoEnCarrito.stock < 1){
+            
             Swal.fire({
                 toast: true,
                 icon: 'warning',
+                iconColor: `rgba(255, 0, 0, 1)`,
                 title: 'ATENCIÓN',
-                text:  `No hay mas stock disponible`,
+                text:  `No hay más stock disponible`,
+                color: `rgb(255, 255, 255)`,
                 showConfirmButton: false,
                 timer: 2200,
-                background: `rgba(255, 233, 204, 0.7)`,
+                background: `rgba(255, 70, 70, 0.541)`,
                 position: 'top-end',
                 timerProgressBar: true,
               })
@@ -300,13 +303,28 @@ function tomarValores(){
                 text: 'Rango de precios invalidos',
               })
         }
+
+        else if((maximo === "0" || minimo === "" || maximo === "") && rangoTres.length === 0 && coincidenciasDos.length !== 0){
+            cargarProductos(coincidenciasDos)
+            rango = []
+            rangoDos = []
+            rangoTres = []
+            
+          }
         
-        else if((maximo === "0" || minimo === "" || maximo === "") && coincidenciasDos.length === 0){
+        else if((maximo === "0" || minimo === "" || maximo === "") && rangoTres.length === 0 && coincidenciasDos.length === 0){
             cargarProductos(productos)
+            rango = []
+            rangoDos = []
+            rangoTres = []
+            console.log(rango)
           }
 
         else if(( maximo === "0" || minimo === "" || maximo === "") && coincidenciasDos.length !== 0){
-          cargarProductos(coincidenciasDos)
+            cargarProductos(coincidenciasDos)
+            rango = []
+            rangoDos = []
+            rangoTres = []
         }
 
         else {
@@ -315,10 +333,10 @@ function tomarValores(){
 }
 
 function rangoPrecios(){
-    if(coincidencias.length === 0 ){
+    if(coincidencias.length === 0 && coincidenciasDos.length === 0 ){
 
         rango = productos.filter((p) =>{ return p.precio <= maximo && p.precio >= minimo})
-        console.log(rango)
+        
         rangoDos = productos.filter((p) =>{ return p.precio <= maximo && p.precio >= minimo})
         
         if (rango.length === 0){
@@ -340,8 +358,14 @@ function rangoPrecios(){
             noHayCoincidencias()
         }
 
+        else if(rango.length === 0 && coincidencias.length === 0 && coincidenciasDos.length !== 0 && rangoTres.length !== 0) {
+            cargarProductos(rangoTres)
+            
+        } 
+
         else if(rango.length === 0 && coincidencias.length === 0 && rangoDos.length !== 0) {
             cargarProductos(rangoDos)
+            
         } 
 
         else if(rango.length === 0 && coincidencias.length !== 0 ) {
@@ -351,11 +375,19 @@ function rangoPrecios(){
         else if(rango.length !== 0 && coincidencias.length !== 0) {
 
             cargarProductos(rango)
+            
+        } 
+
+        else if(coincidencias.length === 0 && coincidenciasDos.length !== 0) {
+
+            cargarProductos(rangoTres)
+            
         } 
 
         else {
 
             cargarProductos(rangoTres)
+            
         } 
     }
 
@@ -367,6 +399,8 @@ function rangoPrecios(){
 function buscarCoincidencias(){
     let filtro = document.getElementById("buscarCoincidencias").value
     if (filtro.trim() === ""){
+        coincidencias = []
+        coincidenciasDos = []
         if(rangoDos.length !== 0){
             cargarProductos(rangoDos)
             
@@ -378,6 +412,9 @@ function buscarCoincidencias(){
     }
     
     else if (rango.length === 0 && rangoDos.length === 0){
+        coincidenciasDos = productos.filter((p) =>{
+            return p.producto.includes(filtro.toUpperCase()) || p.especificaciones.includes(filtro.toUpperCase()) || p.color.includes(filtro.toUpperCase())})
+
         coincidencias = productos.filter((p) =>{
             return p.producto.includes(filtro.toUpperCase()) || p.especificaciones.includes(filtro.toUpperCase()) || p.color.includes(filtro.toUpperCase())})
             
