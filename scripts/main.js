@@ -49,13 +49,7 @@ function cargarProductos(array){
         btnEliminar.addEventListener("click", () => {eliminarCarrito(a.id)})   
 
         const btnAgregar = document.getElementById(`agregar${a.id}`)
-        if(btnAgregar === null){
-            return false
-        }
-        else{
-
-            btnAgregar.addEventListener("click", () => {agregarCarrito(a.id)})           
-        }
+        btnAgregar !== null && btnAgregar.addEventListener("click", () => {agregarCarrito(a.id)})          
         
                           
     })
@@ -95,7 +89,7 @@ function btnAccion(){
     const btnFiltro = document.getElementById("btnBuscarCoincidencias")
     btnFiltro.addEventListener("click", () => {buscarCoincidencias()})
 
-    const menuPrincipal = document.getElementById("divLogo")
+    const menuPrincipal = document.getElementById("logo")
     menuPrincipal.addEventListener("click", () => {cargarProductos(productos)})
 
 }
@@ -209,7 +203,17 @@ function agregarCarrito(idProducto){
     if(productoEnCarrito !== undefined){
        let idx = carrito.indexOf(productoEnCarrito)
        if(productoEnCarrito.stock < 1){
-            alert("No hay Stock")
+            Swal.fire({
+                toast: true,
+                icon: 'warning',
+                title: 'ATENCIÓN',
+                text:  `No hay mas stock disponible`,
+                showConfirmButton: false,
+                timer: 2200,
+                background: `rgba(255, 233, 204, 0.7)`,
+                position: 'top-end',
+                timerProgressBar: true,
+              })
             cargarCarrito(carrito)
        } 
 
@@ -225,7 +229,17 @@ function agregarCarrito(idProducto){
 
     else{
         if(productos.stock === 0){
-            alert("No hay Stock") 
+            Swal.fire({
+                toast: true,
+                icon: 'warning',
+                title: 'ATENCIÓN',
+                text:  `No hay mas stock disponible`,
+                showConfirmButton: false,
+                timer: 2200,
+                background: `rgba(255, 233, 204, 0.7)`,
+                position: 'top-end',
+                timerProgressBar: true,
+              })
             cargarCarrito(carrito)
            } 
 
@@ -280,7 +294,11 @@ function tomarValores(){
     maximo = document.getElementById("precioMaximo").value
    
         if (minimo < 0 || maximo < 0){
-            alert("ERROR: Rango de precios ingresado invalido")
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Rango de precios invalidos',
+              })
         }
         
         else if((maximo === "0" || minimo === "" || maximo === "") && coincidenciasDos.length === 0){
@@ -490,7 +508,6 @@ function mostrarProducto(id){
                                     <th> Color </th>
                                 </tr>
                             </thead> 
-                            
                             `
 
         nodoProductos.appendChild(table)
@@ -507,21 +524,19 @@ function mostrarProducto(id){
         tbody.appendChild(tr)
         table.appendChild(tbody)            
         
-
+        const mediosPago = document.createElement("div")
+        mediosPago.setAttribute("id", "mediosPago")
+        mediosPago.innerHTML=   `
+                                    <img id = "mediosPagoAceptados" src="images/medios-pago.jpg" alt="Metodos de pago">
+                                `
+        nodoProductos.appendChild(mediosPago)
         
         const btnCarritoPS = document.getElementById(`carritoPS`)
         btnCarritoPS.addEventListener("click", () => {carritoPS()})   
 
         const btnAgregarPS = document.getElementById(`agregarPS${ps.id}`)
-        if(btnAgregarPS === null){
-            return false
-        }
-        else{
-
-            btnAgregarPS.addEventListener("click", () => {agregarCarrito(ps.id)})           
-        }
-        
-                          
+        btnAgregarPS !== null && btnAgregarPS.addEventListener("click", () => {agregarCarrito(ps.id)})           
+                           
     })
 
     function disponible(array,id){
@@ -540,15 +555,9 @@ function mostrarProducto(id){
 
     let click = 0
     function carritoPS(){
-        click = click + 1
-        console.log(click)
-        if (click%2=== 0 ){
-            cargarCarrito(carrito)
-        }
-
-        else{
-            let divCarrito = document.getElementById("carrito")
-            divCarrito.innerHTML =""
-        }
+        click++
+        let divCarrito = document.getElementById("carrito")
+        let cantClicks = (click % 2 === 0) ? true : false
+        cantClicks ? cargarCarrito(carrito) : divCarrito.innerHTML =""  
     }
 }
