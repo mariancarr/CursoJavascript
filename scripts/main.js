@@ -1,31 +1,33 @@
+let rango = []
+let rangoDos = []
+let rangoTres = []
+let coincidencias = []
+let coincidenciasDos = []
 
 function init(){
-    cargarProductos()
+    cargarProductos(productos)
     btnAccion()
-    
 }
 
 
 
-function cargarProductos(){
-    const nodoProductos = document.getElementById("gridProductos")
+function cargarProductos(array){
+    let nodoProductos = document.getElementById("gridProductos")
     nodoProductos.innerHTML = ""
     
-    productos.forEach((producto)=>{
+    array.forEach((a)=>{
         const col = document.createElement("div")
         col.setAttribute("class", "col-3")
         col.innerHTML = 
-                        `<div class = "card" style="width: 18rem">
+                        `<div class = "card"  style="width: 18rem">
                             <div class = "card-body">
-                                <img src = "${producto.img}" class="card-img-top"> 
-                                <h5 class="card-title">${producto.producto}</h5>
-                                <p class = "card-text"> ${producto.especificaciones}</p>
-                                <span> $ ${producto.precio}</span>
+                                <img src = "${a.img}" class="card-img-top" id="img-productos${a.id}"> 
+                                <h5 id="img-productos${a.id}" class="card-title">${a.producto}</h5>
+                                <p  id="img-productos${a.id}" class = "card-text"> ${a.especificaciones}</p>
+                                <span> $ ${a.precio}</span>
                                 <div class="buttonsProducto">
-                                    <button class="btn btn-success" id="agregar${producto.id}">
-                                        Agregar
-                                    </button>
-                                    <button class="btn btn-danger" id="eliminar${producto.id}">
+                                    ${disponible(a,a.id)}
+                                    <button class="btn btn-danger" id="eliminar${a.id}">
                                         Eliminar
                                     </button>
                                 </div>
@@ -34,13 +36,41 @@ function cargarProductos(){
                                      
         nodoProductos.appendChild(col) 
 
-        const btnAgregar = document.getElementById(`agregar${producto.id}`)
-        btnAgregar.addEventListener("click", () => {agregarCarrito(producto.id)})           
+        const btnProducto = document.getElementById(`img-productos${a.id}`)
+        btnProducto.addEventListener("click", () => {mostrarProducto(a.id)})
+
+        const btnEliminar = document.getElementById(`eliminar${a.id}`)
+        btnEliminar.addEventListener("click", () => {eliminarCarrito(a.id)})   
+
+        const btnAgregar = document.getElementById(`agregar${a.id}`)
+        if(btnAgregar === null){
+            return false
+        }
+        else{
+
+            btnAgregar.addEventListener("click", () => {agregarCarrito(a.id)})           
+        }
         
-        const btnEliminar = document.getElementById(`eliminar${producto.id}`)
-        btnEliminar.addEventListener("click", () => {eliminarCarrito(producto.id)})                     
+                          
     })
+
+    function disponible(array,id){
+        const tarea =  productos.find((element) => element.id === id)
+        
+        if (tarea.stock < 1 ){
+            return "Sin stock"
+        }
+    
+        else{
+            return `<button class="btn btn-success" id="agregar${array.id}">
+                        Agregar
+                    </button>`
+        }
+    }
 }
+
+
+
       
 
 
@@ -58,7 +88,10 @@ function btnAccion(){
     
     const btnFiltro = document.getElementById("btnBuscarCoincidencias")
     btnFiltro.addEventListener("click", () => {buscarCoincidencias()})
-  
+
+    const menuPrincipal = document.getElementById("divLogo")
+    menuPrincipal.addEventListener("click", () => {cargarProductos(productos)})
+
 }
 
 
@@ -150,21 +183,27 @@ function cargarCarrito(array){
 function vaciarCarrito(){
     carrito = []
     cargarCarrito(carrito)
+    
 }
 
 function agregarCarrito(idProducto){
     let productoEnCarrito = carrito.find((elemento) => elemento.id === idProducto)
+    let prod = productos.find((e) => e.id === idProducto)
+    
 
-    if(productoEnCarrito){
+    if(productoEnCarrito !== undefined){
        let idx = carrito.indexOf(productoEnCarrito)
-       if(productoEnCarrito.stock === 0){
+       if(productoEnCarrito.stock < 1){
             alert("No hay Stock")
             cargarCarrito(carrito)
        } 
 
        else{
+           prod.stock--
            carrito[idx].agregarUnidad()
            carrito[idx].actualizarPrecioTotal()
+           cargarCarrito(carrito)
+
        } 
        
     }
@@ -177,29 +216,37 @@ function agregarCarrito(idProducto){
 
         else{
             carrito.push(new Inventario(productos[idProducto],1))
+            prod.stock--
+            cargarCarrito(carrito)
         }
     }
 
     localStorage.setItem("carritoStorage", JSON.stringify(carrito))
-    cargarCarrito(carrito)
-    console.log(carrito)
+    
+    
 }
 
 function eliminarCarrito(idProducto){
     let productoEnCarrito = carrito.find((elemento) => elemento.id === idProducto)
     let idx = carrito.findIndex((elemento) =>elemento.id === productoEnCarrito.id)
+    let prod = productos.find((e) => e.id === idProducto)
     
     if(productoEnCarrito.cantidad > 1){
         carrito[idx].eliminarUnidad()
         carrito[idx].actualizarPrecioTotal()
+        prod.stock++
+        cargarCarrito(carrito)
+        
     }
 
     else{
         carrito.splice(idx,1)
+        prod.stock++
+        cargarCarrito(carrito) 
     }
 
     localStorage.setItem("carritoStorage", JSON.stringify(carrito))
-    cargarCarrito(carrito)
+    
 }
 
 function obtenerPrecioTotal(array){
@@ -216,45 +263,277 @@ function obtenerPrecioTotal(array){
 function tomarValores(){
     minimo = document.getElementById("precioMinimo").value
     maximo = document.getElementById("precioMaximo").value
+   
         if (minimo < 0 || maximo < 0){
-            alert("ERROR: Valores ingresados invalidos")
+            alert("ERROR: Rango de precios ingresado invalido")
         }
         
+        else if((maximo === "0" || minimo === "" || maximo === "") && coincidenciasDos.length === 0){
+            cargarProductos(productos)
+          }
+
+        else if(( maximo === "0" || minimo === "" || maximo === "") && coincidenciasDos.length !== 0){
+          cargarProductos(coincidenciasDos)
+        }
+
         else {
             rangoPrecios()
         }
 }
 
 function rangoPrecios(){
-    rango = productos.filter((p) => p.precio <= maximo && p.precio >= minimo)
-    productos = rango
-    cargarProductos()
+    if(coincidencias.length === 0 ){
+
+        rango = productos.filter((p) =>{ return p.precio <= maximo && p.precio >= minimo})
+        console.log(rango)
+        rangoDos = productos.filter((p) =>{ return p.precio <= maximo && p.precio >= minimo})
+        
+        if (rango.length === 0){
+            noHayCoincidencias()
+        }
+
+        else {
+            cargarProductos(rangoDos)
+        }
+        
+    }
+
+    else{
+        rango = coincidencias.filter((c) =>{ return c.precio <= maximo && c.precio >= minimo})
+        rangoDos = productos.filter((p) =>{ return p.precio <= maximo && p.precio >= minimo})
+        rangoTres = coincidenciasDos.filter((p) =>{ return p.precio <= maximo && p.precio >= minimo})
+        
+        if (rangoDos.length === 0){
+            noHayCoincidencias()
+        }
+
+        else if(rango.length === 0 && coincidencias.length === 0 && rangoDos.length !== 0) {
+            cargarProductos(rangoDos)
+        } 
+
+        else if(rango.length === 0 && coincidencias.length !== 0 ) {
+            noHayCoincidencias()
+        } 
+
+        else if(rango.length !== 0 && coincidencias.length !== 0) {
+
+            cargarProductos(rango)
+        } 
+
+        else {
+
+            cargarProductos(rangoTres)
+        } 
+    }
+
+   
+    
 }
 
 
 function buscarCoincidencias(){
     let filtro = document.getElementById("buscarCoincidencias").value
-    productos = productos.filter((p) =>{
-        return p.producto.includes(filtro.toUpperCase()) || p.especificaciones.includes(filtro.toUpperCase()) || p.color.includes(filtro.toUpperCase())})
-    if (productos.length === 0){
-        console.log(productos)
-        cargarProductos()
-    }
-    else{
-        cargarProductos()
+    if (filtro.trim() === ""){
+        if(rangoDos.length !== 0){
+            cargarProductos(rangoDos)
+            
+        }
+
+        else{
+            cargarProductos(productos)
+        }
     }
     
-                        
+    else if (rango.length === 0 && rangoDos.length === 0){
+        coincidencias = productos.filter((p) =>{
+            return p.producto.includes(filtro.toUpperCase()) || p.especificaciones.includes(filtro.toUpperCase()) || p.color.includes(filtro.toUpperCase())})
+            
+        if (coincidencias.length === 0){
+            noHayCoincidencias()
+        }
+
+        else{
+             
+            cargarProductos(coincidencias)
+        }
+    }
+
+    else if (rangoDos.length !== 0){
+        coincidenciasDos = productos.filter((p) =>{
+            return p.producto.includes(filtro.toUpperCase()) || p.especificaciones.includes(filtro.toUpperCase()) || p.color.includes(filtro.toUpperCase())})
+
+        coincidencias = rangoDos.filter((p) =>{
+            return p.producto.includes(filtro.toUpperCase()) || p.especificaciones.includes(filtro.toUpperCase()) || p.color.includes(filtro.toUpperCase())})
+            
+        if (coincidencias.length === 0){
+            noHayCoincidencias()
+        }
+
+        else{ 
+            cargarProductos(coincidencias)
+        }
+    }
+                     
 }
 
 
 function ordenarDescendente(){
-    let rango =  productos.sort((a, b) => b.precio - a.precio)
-    productos = rango
-    cargarProductos()
-}
+    if (coincidencias.length !== 0 && rango.length === 0 && rangoDos.length === 0){
+        let ordenarDesc =  coincidencias.sort((a, b) => b.precio - a.precio)
+        cargarProductos(ordenarDesc)
+        
+    }
+
+    else if (rango.length !== 0 && coincidencias.length !== 0){
+        let ordenarDesc =  rango.sort((a, b) => b.precio - a.precio)
+        console.log(rango)
+        console.log(ordenarDesc)
+        cargarProductos(ordenarDesc)
+    }
+
+    else if(coincidencias.length === 0 && rangoDos.length !== 0){
+        let ordenarDesc =  rangoDos.sort((a, b) => b.precio - a.precio)
+        cargarProductos(ordenarDesc)
+       
+    }
+    }
+ 
 
 function ordenarAscendente(){
-    productos =  productos.sort((a, b) => a.precio - b.precio)
-    cargarProductos()
+    let ordenarAsc =  productos.sort((a, b) => a.precio - b.precio)
+    cargarProductos(ordenarAsc)
+}
+
+
+function noHayCoincidencias(){
+    nodoProductos = document.getElementById("gridProductos")
+    nodoProductos.innerHTML = ""
+    const noCoincidencias = document.createElement("div") 
+    noCoincidencias.setAttribute("class", "col")
+    noCoincidencias.setAttribute("id", "noCoincidencias")
+    noCoincidencias.innerHTML = `
+                    <img id = "noCoincidenciasImg" src="images/no-results.PNG" alt="No hay coincidencias">
+                    <div>
+                        <h3 id="noCoincidenciasTxt">No hay publicaciones que coincidan con tu búsqueda.</h3>
+                        <ul id="noCoincidenciasLista">
+                            <li>Revisá la ortografía de la palabra.</li>
+                            <li>Utilizá palabras más genéricas o menos palabras.</li>
+                            <li>Revisá el rango de precios</li>
+                        </ul>
+                    </div>
+                    
+                    `             
+    nodoProductos.append(noCoincidencias)
+}
+
+
+function mostrarProducto(id){
+    const bodyRango = document.getElementById("formRangoPrecios")
+    bodyRango.innerHTML=""
+    const bodyOrdenar = document.getElementById("ordenar")
+    bodyOrdenar.innerHTML=""
+    nodoProductos = document.getElementById("gridProductos")
+    nodoProductos.innerHTML = ""
+    let productoSeleccionado = productos.filter((p) => p.id === id)
+
+    productoSeleccionado.forEach((ps) => {
+        const divPS= document.createElement("div") 
+        divPS.setAttribute("class", "col")
+        divPS.setAttribute("id", "productoSeleccionado")
+        divPS.innerHTML = `
+                        <div class="container">
+                            <div class="row" id="rowPS">
+                                <div class ="col-6"id = "divImgPS">
+                                    <img id = "imgPS" src="${ps.img}" alt="No hay coincidencias">
+                                </div>
+                                <div class ="col-6"id="divTxtPS">
+                                    <h5 class="productoPS">${ps.producto} ${ps.especificaciones}</h5>
+                                    <span id="precioPS"> $ ${ps.precio.toLocaleString('es-AR', { minimumFractionDigits: 2})}</span>
+                                    <div class="buttonsProductoPS">
+                                            ${disponible(ps,ps.id)}
+                                           
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-cart" viewBox="0 0 16 16" id="carritoPS">
+                                            <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+                                            </svg>
+                                    </div> 
+                                </div>
+                            </div>
+                        </div>
+                        `
+        nodoProductos.appendChild(divPS)
+        const table = document.createElement("table")
+        table.setAttribute("id", "listaEspecificaciones")
+        table.setAttribute("class", "table")
+
+        table.innerHTML= `
+                            <thead>
+                                <tr>
+                                    <th> Tipo Conexion </th>
+                                    <th> USB </th>
+                                    <th> Largo del Cable </th>
+                                    <th> Compatibilidad </th>
+                                    <th> Color </th>
+                                </tr>
+                            </thead> 
+                            
+                            `
+
+        nodoProductos.appendChild(table)
+
+        const tbody = document.createElement("tbody")
+            const tr = document.createElement("tr")
+            tr.innerHTML=`  
+                            <td> ${ps.conexion}</td>
+                            <td> ${ps.usb}</td>
+                            <td> ${ps.largoCable}</td>
+                            <td> ${ps.compatibilidad}</td>
+                            <td> ${ps.color}</td>
+                            `
+        tbody.appendChild(tr)
+        table.appendChild(tbody)            
+        
+
+        
+        const btnCarritoPS = document.getElementById(`carritoPS`)
+        btnCarritoPS.addEventListener("click", () => {carritoPS()})   
+
+        const btnAgregarPS = document.getElementById(`agregarPS${ps.id}`)
+        if(btnAgregarPS === null){
+            return false
+        }
+        else{
+
+            btnAgregarPS.addEventListener("click", () => {agregarCarrito(ps.id)})           
+        }
+        
+                          
+    })
+
+    function disponible(array,id){
+        const btnPS =  productos.find((element) => element.id === id)
+        
+        if (btnPS.stock < 1 ){
+            return "Sin stock"
+        }
+    
+        else{
+            return `<button class="btnPS" id="agregarPS${array.id}">
+                        Sumar al carrito
+                    </button>`
+        }
+    }
+
+    let click = 0
+    function carritoPS(){
+        click = click + 1
+        console.log(click)
+        if (click%2=== 0 ){
+            cargarCarrito(carrito)
+        }
+
+        else{
+            let divCarrito = document.getElementById("carrito")
+            divCarrito.innerHTML =""
+        }
+    }
 }

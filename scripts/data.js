@@ -15,6 +15,7 @@ class Inventario{
     }
 
     agregarUnidad(){
+        
         this.cantidad++;
         this.stock--;
     }
@@ -35,10 +36,15 @@ let productos = [
         producto: "AURICULARES", 
         marca: "Hyperx".toUpperCase(),
         especificaciones: "HyperX Cloud Alpha Gaming Red PC".toUpperCase(), 
-        color:"rojo",
+        color:" negro y rojo",
         precio: 11500,
         stock: 5,
-        img: "images/auriculares_HyperX_Cloud_Alpha_Gaming_Red_PC.jpg",       
+        img: "images/auriculares_HyperX_Cloud_Alpha_Gaming_Red_PC.jpg",  
+        largoCable : "2.1m",
+        usb: "no",
+        conexion: "cable",
+        compatibilidad: "Android por Mini Plug,Nintendo Switch,PC,PS4,Xbox One,PS5,Xbox X/S Series",
+
     },
 
     {
@@ -49,7 +55,11 @@ let productos = [
         color:"blanco",
         precio: 12341,
         stock: 3,
-        img: "images/auriculares_Inalambricos_Logitech_G733_Lightspeed_RGB_White.jpg",       
+        img: "images/auriculares_Inalambricos_Logitech_G733_Lightspeed_RGB_White.jpg", 
+        largoCable : "1.8m",
+        usb: "no",
+        conexion: "Inalambrico o cable",
+        compatibilidad: "Android por Mini Plug,Nintendo Switch,PC,PS4,Xbox One,PS5,Xbox X/S Series",      
     },
 
     {
@@ -59,8 +69,12 @@ let productos = [
         especificaciones: "HyperX Cloud Stinger Gaming Negro PC".toUpperCase(),
          color:"negro",
         precio: 9000,
-        stock: 1,
-        img: "images/auriculares_HyperX_Cloud_Stinger_Gaming_Negro__PC.jpg",        
+        stock: 0,
+        img: "images/auriculares_HyperX_Cloud_Stinger_Gaming_Negro__PC.jpg", 
+        largoCable : "2m",
+        usb: "no",
+        conexion: "cable",
+        compatibilidad: "Android por Mini Plug,Nintendo Switch,PC,PS4,Xbox One,PS5,Xbox X/S Series",       
     },
 
     {
@@ -68,10 +82,14 @@ let productos = [
         producto: "AURICULARES", 
         marca: "logitech".toUpperCase(),
         especificaciones: "Logitech PRO X Gaming".toUpperCase(),
-         color:"negro",
+         color:"negro mate",
         precio: 5456,
         stock: 4,
-        img: "images/auriculares_Logitech_PRO_X_Gaming.jpg",        
+        img: "images/auriculares_Logitech_PRO_X_Gaming.jpg",
+        largoCable : "1.9m",
+        usb: "no",
+        conexion: "cable",
+        compatibilidad: "Android por Mini Plug,Nintendo Switch,PC,PS4,Xbox One,PS5,Xbox X/S Series",        
     },
 
     {
@@ -79,10 +97,14 @@ let productos = [
         producto: "GABINETE", 
         marca: "ASUS".toUpperCase(),
         especificaciones: "ASUS ROG STRIX Helios Aluminum Black RGB".toUpperCase(), 
-        color:"negro",
+        color:"negro con RGB",
         precio: 8766,
         stock: 7,
-        img: "images/gabinete_ASUS_ROG_STRIX_Helios_Aluminum_Black_RGB.jpg",        
+        img: "images/gabinete_ASUS_ROG_STRIX_Helios_Aluminum_Black_RGB.jpg",
+        largoCable : "1m",
+        usb: "no",
+        conexion: "cable",
+        compatibilidad: "PC",        
     },
 
     {
@@ -90,10 +112,14 @@ let productos = [
         producto: "GABINETE", 
         marca: "redragon".toUpperCase(),
         especificaciones: "Be Quiet Dark Base Pro 900 Black Rev 2".toUpperCase(), 
-        color:"red",
+        color:"gris",
         precio: 4345,
         stock: 3,
         img: "images/gabinete_Be_Quiet__DARK_BASE_PRO_900_Black_Rev_2.jpg",
+        largoCable : "1m",
+        usb: "no",
+        conexion: "cable",
+        compatibilidad: "PC",
     },
 
     {
@@ -101,10 +127,14 @@ let productos = [
         producto: "MONITOR", 
         marca: "ASUS".toUpperCase(),
         especificaciones: "Gamer ASUS ROG SWIFT 24 PG259QNR 360Hz 1Ms G-Sync".toUpperCase(),
-        color:"red",
+        color:"negro",
         precio: 6565,
         stock: 8,
-        img: "images/monitor_Gamer_ASUS_ROG_SWIFT_24__PG259QNR_360Hz_1Ms_G-Sync.jpg",    
+        img: "images/monitor_Gamer_ASUS_ROG_SWIFT_24__PG259QNR_360Hz_1Ms_G-Sync.jpg",  
+        largoCable : "2.5m",
+        usb: "no",
+        conexion: "cable",
+        compatibilidad: "PC",  
     },
 
     {
@@ -112,10 +142,14 @@ let productos = [
         producto: "MONITOR", 
         marca: "ViewSonic".toUpperCase(),
         especificaciones: "Gamer ViewSonic 24 XG240R ELITE 144Hz 1ms".toUpperCase(),
-        color:"red",
+        color:"negro",
         precio: 7676,
-        stock: 7,
-        img: "images/monitor_Gamer_ViewSonic_24__XG240R_ELITE_144Hz_1ms.jpg",     
+        stock: 0,
+        img: "images/monitor_Gamer_ViewSonic_24__XG240R_ELITE_144Hz_1ms.jpg", 
+        largoCable : "2.5m",
+        usb: "no",
+        conexion: "cable",
+        compatibilidad: "PC",    
     },
 
     {
@@ -123,10 +157,14 @@ let productos = [
         producto: "MONITOR", 
         marca: "LG".toUpperCase(),
         especificaciones: "LG 32 UltraGear 32UN550 4K 60Hz".toUpperCase(),
-        color:"red",
+        color:"negro",
         precio: 5347,
         stock: 6,
-        img: "images/monitor_LG_32__UltraGear_32UN550_4K_60Hz.jpg",       
+        img: "images/monitor_LG_32__UltraGear_32UN550_4K_60Hz.jpg",
+        largoCable : "2.5m",
+        usb: "no",
+        conexion: "cable",
+        compatibilidad: "PC",       
     },
 
     {
@@ -134,10 +172,14 @@ let productos = [
         producto: "MOUSE", 
         marca: "Logitech".toUpperCase(),
         especificaciones: "Logitech G603 Lightspeed Wireless".toUpperCase(),
-        color:"red",
+        color:"gris",
         precio: 8776,
         stock: 11,
-        img: "images/mouse_Logitech_G603_Lightspeed_Wireless.jpg",     
+        img: "images/mouse_Logitech_G603_Lightspeed_Wireless.jpg",
+        largoCable : "1.9m",
+        usb: "si",
+        conexion: "Inalambrico",
+        compatibilidad: "PC",     
     },
 
     {
@@ -145,10 +187,14 @@ let productos = [
         producto: "MOUSE", 
         marca: "Logitech".toUpperCase(),
         especificaciones: "Logitech G703 Lightspeed Wireless".toUpperCase(),
-        color:"red",
+        color:"negro",
         precio: 9999,
-        stock: 10,
-        img: "images/mouse_Logitech_G703_Lightspeed_Wireless.jpg",    
+        stock: 0,
+        img: "images/mouse_Logitech_G703_Lightspeed_Wireless.jpg",
+        largoCable : "2m",
+        usb: "si",
+        conexion: "Inalambrico",
+        compatibilidad: "PC",    
     },
 
     {
@@ -156,10 +202,14 @@ let productos = [
         producto: "MOUSE", 
         marca: "Logitech".toUpperCase(),
         especificaciones: "Logitech G PRO X Superlight Black".toUpperCase(),
-        color:"red",
+        color:"negro",
         precio: 545,
         stock: 12,
-        img: "images/mouse_Logitech_G_PRO_X_Superlight_Black.jpg",    
+        img: "images/mouse_Logitech_G_PRO_X_Superlight_Black.jpg",
+        largoCable : "2m",
+        usb: "si",
+        conexion: "inalambrico o cable",
+        compatibilidad: "PC",    
     },
 
     {
@@ -167,21 +217,29 @@ let productos = [
         producto: "MOUSE", 
         marca: "Logitec".toUpperCase(),
         especificaciones: "Logitech G PRO X Superlight White".toUpperCase(),
-        color:"red",
+        color:"blanco",
         precio: 1234,
         stock: 14,
-        img: "images/mouse_Logitech_G_PRO_X_Superlight_White.jpg",    
+        img: "images/mouse_Logitech_G_PRO_X_Superlight_White.jpg",
+        largoCable : "2m",
+        usb: "si",
+        conexion: "inalambrico o cable",
+        compatibilidad: "PC",    
     },
 
     {
         id: 13, 
         producto: "MOUSE PAD", 
         marca: "Hyperx".toUpperCase(),
-        especificaciones: "HyperX Fury S Pro Gaming Speed Edition L".toUpperCase(),
-        color:"red",
+        especificaciones: "HyperX Fury Pro Gaming Speed Edition L".toUpperCase(),
+        color:"rojo y negro",
         precio: 2444,
         stock: 15,
-        img: "images/mouse_Pad_HyperX_Fury_S_Pro_Gaming_Speed_Edition_L.jpg",  
+        img: "images/mouse_Pad_HyperX_Fury_S_Pro_Gaming_Speed_Edition_L.jpg",
+        largoCable : "-",
+        usb: "-",
+        conexion: "-",
+        compatibilidad: "-",  
     },
 
     {
@@ -189,10 +247,14 @@ let productos = [
         producto: "MOUSE PAD", 
         marca: "Logitech".toUpperCase(),
         especificaciones: "Logitech G640 Gaming".toUpperCase(),
-        color:"red",
+        color:"celeste y negro",
         precio: 1234,
         stock: 13,
-        img: "images/mouse_Pad_Logitech_G640_Gaming.jpg",  
+        img: "images/mouse_Pad_Logitech_G640_Gaming.jpg", 
+        largoCable : "-",
+        usb: "no",
+        conexion: "cable",
+        compatibilidad: "-", 
     },
 
     {
@@ -200,10 +262,14 @@ let productos = [
         producto: "MOUSE PAD", 
         marca: "Redragon".toUpperCase(),
         especificaciones: "Redragon Flick L".toUpperCase(),
-        color:"red",
+        color:"negro",
         precio: 1234,
         stock: 12,
-        img: "images/mouse_Pad_Redragon_Flick_L.jpg",   
+        img: "images/mouse_Pad_Redragon_Flick_L.jpg", 
+        largoCable : "-",
+        usb: "no",
+        conexion: "cable",
+        compatibilidad: "-",  
     },
 
     {
@@ -211,10 +277,14 @@ let productos = [
         producto: "TECLADO", 
         marca: "Logitech".toUpperCase(),
         especificaciones: "Logitech G213 Prodigy RGB".toUpperCase(),
-        color:"red",
+        color:"negro",
         precio: 1234,
         stock: 7,
-        img: "images/teclado_Logitech_G213_Prodigy_RGB.jpg",  
+        img: "images/teclado_Logitech_G213_Prodigy_RGB.jpg", 
+        largoCable : "2.1m",
+        usb: "no",
+        conexion: "cable",
+        compatibilidad: "PC", 
     },
 
     {
@@ -222,10 +292,14 @@ let productos = [
         producto: "TECLADO", 
         marca: "Hyperx".toUpperCase(),
         especificaciones: "HyperX Alloy Origins RGB Switch Red".toUpperCase(),
-        color:"red",
+        color:"rojo",
         precio: 1234,
         stock: 8,
-        img: "images/teclado_Mecanico_HyperX_Alloy_Origins_RGB_Switch_Red.jpg",  
+        img: "images/teclado_Mecanico_HyperX_Alloy_Origins_RGB_Switch_Red.jpg", 
+        largoCable : "2m",
+        usb: "no",
+        conexion: "cable",
+        compatibilidad: "PC", 
     },
 
     {
@@ -233,10 +307,14 @@ let productos = [
         producto: "TECLADO", 
         marca: "Logitech".toUpperCase(),
         especificaciones: "Logitech PRO Series RGB GX Clicky Switches".toUpperCase(),
-        color:"red",
+        color:"negro con RGB",
         precio: 1234,
         stock: 9,
-        img: "images/teclado_Mecanico_Logitech_PRO_Series_RGB_GX_Clicky_Switches.jpg",   
+        img: "images/teclado_Mecanico_Logitech_PRO_Series_RGB_GX_Clicky_Switches.jpg",
+        largoCable : "1.8m",
+        usb: "si",
+        conexion: "cable",
+        compatibilidad: "PC",   
     },
 
     {
@@ -244,10 +322,14 @@ let productos = [
         producto: "WEBCAM", 
         marca: "Logitech".toUpperCase(),
         especificaciones: "Logitech C925e Full_HD con tapa".toUpperCase(),
-        color:"red",
+        color:"negro",
         precio: 1234,
-        stock: 5,
-        img: "images/webCam_Logitech_C925e_Full_HD_con_tapa.jpg",   
+        stock: 1,
+        img: "images/webCam_Logitech_C925e_Full_HD_con_tapa.jpg", 
+        largoCable : "1.6m",
+        usb: "si",
+        conexion: "cable",
+        compatibilidad: "PC con windows 7 / macOS10.7 o posterior",    
     },
 
     {
@@ -255,16 +337,13 @@ let productos = [
         producto: "WEBCAM", 
         marca: "Redragon".toUpperCase(),
         especificaciones: "Redragon GW800 Hitman 1080p".toUpperCase(),
-        color:"red",
+        color:"negro",
         precio: 1234,
         stock: 6,
-        img: "images/webcam_Redragon_GW800_Hitman_1080p.jpg",   
+        img: "images/webcam_Redragon_GW800_Hitman_1080p.jpg",
+        largoCable : "1.5m",
+        usb: "si",
+        conexion: "cable",
+        compatibilidad: "PC con windows 7 / macOS10.7 o posterior",     
     }
 ]
-
-
-
-
-
-
-
