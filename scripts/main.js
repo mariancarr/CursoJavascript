@@ -5,8 +5,11 @@ let coincidencias = []
 let coincidenciasDos = []
 
 function init(){
+    verificarProductosStorage()
     cargarProductos(productos)
     btnAccion()
+    verificarCarritoStorage()
+    
 }
 
 
@@ -55,9 +58,9 @@ function cargarProductos(array){
     })
 
     function disponible(array,id){
-        const tarea =  productos.find((element) => element.id === id)
+        const dispo =  productos.find((element) => element.id === id)
         
-        if (tarea.stock < 1 ){
+        if (dispo.stock < 1 ){
             return "Sin stock"
         }
     
@@ -189,16 +192,40 @@ function cargarCarrito(array){
     
 }
 
+
+function verificarCarritoStorage(){
+    let carritoEnStorage = localStorage.getItem("carritoStorage")
+    
+    if (carritoEnStorage !== null){
+            productos = JSON.parse(localStorage.getItem("productosStorage"))
+            
+            cargarProductos(productos)
+        }
+    }
+
+function verificarProductosStorage(){
+    let productoEnStorage = localStorage.getItem("productosStorage")
+    
+    if (productoEnStorage !== null){
+            carrito = JSON.parse(localStorage.getItem("carritoStorage"))
+            console.log(carrito)
+            cargarCarrito(carrito)
+        }
+}
+
+   
+
+
 function vaciarCarrito(){
     carrito = []
     cargarCarrito(carrito)
-    
+    localStorage.setItem("carritoStorage", JSON.stringify(carrito))
+    localStorage.setItem("productosStorage", JSON.stringify(productos))
 }
 
 function agregarCarrito(idProducto){
     let productoEnCarrito = carrito.find((elemento) => elemento.id === idProducto)
     let prod = productos.find((e) => e.id === idProducto)
-    
 
     if(productoEnCarrito !== undefined){
        let idx = carrito.indexOf(productoEnCarrito)
@@ -231,7 +258,7 @@ function agregarCarrito(idProducto){
     }
 
     else{
-        if(productos.stock === 0){
+        if(prod.stock === 0){
             Swal.fire({
                 toast: true,
                 icon: 'warning',
@@ -254,6 +281,7 @@ function agregarCarrito(idProducto){
     }
 
     localStorage.setItem("carritoStorage", JSON.stringify(carrito))
+    localStorage.setItem("productosStorage", JSON.stringify(productos))
     
     
 }
@@ -262,6 +290,7 @@ function eliminarCarrito(idProducto){
     let productoEnCarrito = carrito.find((elemento) => elemento.id === idProducto)
     let idx = carrito.findIndex((elemento) =>elemento.id === productoEnCarrito.id)
     let prod = productos.find((e) => e.id === idProducto)
+    console.log(idx)
     
     if(productoEnCarrito.cantidad > 1){
         carrito[idx].eliminarUnidad()
@@ -278,7 +307,7 @@ function eliminarCarrito(idProducto){
     }
 
     localStorage.setItem("carritoStorage", JSON.stringify(carrito))
-    
+    localStorage.setItem("productosStorage", JSON.stringify(productos))
 }
 
 function obtenerPrecioTotal(array){
@@ -598,3 +627,5 @@ function mostrarProducto(id){
         cantClicks ? cargarCarrito(carrito) : divCarrito.innerHTML =""  
     }
 }
+
+
