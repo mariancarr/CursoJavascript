@@ -197,9 +197,9 @@ function verificarCarritoStorage(){
     let carritoEnStorage = localStorage.getItem("carritoStorage")
     
     if (carritoEnStorage !== null){
-            productos = JSON.parse(localStorage.getItem("productosStorage"))
-            
-            cargarProductos(productos)
+            carrito = JSON.parse(localStorage.getItem("carritoStorage"))
+            console.log(carrito)
+            cargarCarrito(carrito)
         }
     }
 
@@ -207,9 +207,9 @@ function verificarProductosStorage(){
     let productoEnStorage = localStorage.getItem("productosStorage")
     
     if (productoEnStorage !== null){
-            carrito = JSON.parse(localStorage.getItem("carritoStorage"))
-            console.log(carrito)
-            cargarCarrito(carrito)
+            productos = JSON.parse(localStorage.getItem("productosStorage"))
+            
+            cargarProductos(productos)
         }
 }
 
@@ -229,6 +229,7 @@ function agregarCarrito(idProducto){
 
     if(productoEnCarrito !== undefined){
        let idx = carrito.indexOf(productoEnCarrito)
+        console.log(idx)
        if(productoEnCarrito.stock < 1){
             
             Swal.fire({
@@ -244,6 +245,7 @@ function agregarCarrito(idProducto){
                 position: 'top-end',
                 timerProgressBar: true,
               })
+              
             cargarCarrito(carrito)
        } 
 
@@ -254,7 +256,7 @@ function agregarCarrito(idProducto){
            cargarCarrito(carrito)
 
        } 
-       
+       console.log(carrito)
     }
 
     else{
@@ -288,11 +290,14 @@ function agregarCarrito(idProducto){
 
 function eliminarCarrito(idProducto){
     let productoEnCarrito = carrito.find((elemento) => elemento.id === idProducto)
-    let idx = carrito.findIndex((elemento) =>elemento.id === productoEnCarrito.id)
+    
     let prod = productos.find((e) => e.id === idProducto)
-    console.log(idx)
+   
     
     if(productoEnCarrito.cantidad > 1){
+        let idx = carrito.indexOf(productoEnCarrito)
+        console.log(idx)
+        console.log(carrito)
         carrito[idx].eliminarUnidad()
         carrito[idx].actualizarPrecioTotal()
         prod.stock++
