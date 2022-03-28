@@ -10,11 +10,14 @@ function init(){
     btnAccion()
     verificarCarritoStorage()
     
+    
 }
 
 
-
 function cargarProductos(array){
+    document.getElementById("formRangoPrecios").style = "display:block"
+    
+    document.getElementById("ordenar").style = "display:block"
     let nodoProductos = document.getElementById("gridProductos")
     nodoProductos.innerHTML = ""
     
@@ -60,7 +63,7 @@ function cargarProductos(array){
     function disponible(array,id){
         const dispo =  productos.find((element) => element.id === id)
         
-        if (dispo.stock < 1 ){
+        if (dispo.stockVariable < 1 ){
             return "Sin stock"
         }
     
@@ -158,6 +161,7 @@ function cargarCarrito(array){
                                                     </svg>
                                                 </button>
                                             </div>
+                                            ${disponibleCarro(c.id)}
                                             <div id="precioCarritoUnidad">
                                                 <span> $ ${c.precioTotal}</span>
                                             </div>    
@@ -192,12 +196,25 @@ function cargarCarrito(array){
     
 }
 
+function disponibleCarro(id){
+    let dispoCarro = carrito.find((element) => element.id === id)
+    
+    if(dispoCarro.stockVariable < 1){
+        return `
+                <span id="sinStockCarrito"> Sin stock </span>
+                `
+    }
 
+    else{
+        return ``
+    }
+
+}
 function verificarCarritoStorage(){
-    let carritoEnStorage = localStorage.getItem("carritoStorage")
+    let carritoEnStorage = JSON.parse(localStorage.getItem("carritoStorage"))
     
     if (carritoEnStorage !== null){
-            carrito = JSON.parse(localStorage.getItem("carritoStorage"))
+            carrito = carritoEnStorage.map((e) => new Inventario(productos[e.id],e.cantidad))
             console.log(carrito)
             cargarCarrito(carrito)
         }
@@ -218,6 +235,7 @@ function verificarProductosStorage(){
 
 function vaciarCarrito(){
     carrito = []
+    productos.forEach((p) => p.stockVariable = p.stockFijo)
     cargarCarrito(carrito)
     localStorage.setItem("carritoStorage", JSON.stringify(carrito))
     localStorage.setItem("productosStorage", JSON.stringify(productos))
@@ -230,7 +248,7 @@ function agregarCarrito(idProducto){
     if(productoEnCarrito !== undefined){
        let idx = carrito.indexOf(productoEnCarrito)
         console.log(idx)
-       if(productoEnCarrito.stock < 1){
+       if(productoEnCarrito.stockVariable < 1){
             
             Swal.fire({
                 toast: true,
@@ -250,7 +268,7 @@ function agregarCarrito(idProducto){
        } 
 
        else{
-           prod.stock--
+           prod.stockVariable--
            carrito[idx].agregarUnidad()
            carrito[idx].actualizarPrecioTotal()
            cargarCarrito(carrito)
@@ -260,15 +278,17 @@ function agregarCarrito(idProducto){
     }
 
     else{
-        if(prod.stock === 0){
+        if(prod.stockVariable === 0){
             Swal.fire({
                 toast: true,
                 icon: 'warning',
+                iconColor: `rgba(255, 0, 0, 1)`,
                 title: 'ATENCIÓN',
-                text:  `No hay mas stock disponible`,
+                text:  `No hay más stock disponible`,
+                color: `rgb(255, 255, 255)`,
                 showConfirmButton: false,
                 timer: 2200,
-                background: `rgba(255, 233, 204, 0.7)`,
+                background: `rgba(255, 70, 70, 0.541)`,
                 position: 'top-end',
                 timerProgressBar: true,
               })
@@ -277,7 +297,7 @@ function agregarCarrito(idProducto){
 
         else{
             carrito.push(new Inventario(productos[idProducto],1))
-            prod.stock--
+            prod.stockVariable--
             cargarCarrito(carrito)
         }
     }
@@ -290,24 +310,24 @@ function agregarCarrito(idProducto){
 
 function eliminarCarrito(idProducto){
     let productoEnCarrito = carrito.find((elemento) => elemento.id === idProducto)
-    
+    let idx = carrito.indexOf(productoEnCarrito)
     let prod = productos.find((e) => e.id === idProducto)
    
     
     if(productoEnCarrito.cantidad > 1){
-        let idx = carrito.indexOf(productoEnCarrito)
+        
         console.log(idx)
         console.log(carrito)
         carrito[idx].eliminarUnidad()
         carrito[idx].actualizarPrecioTotal()
-        prod.stock++
+        prod.stockVariable++
         cargarCarrito(carrito)
         
     }
 
     else{
         carrito.splice(idx,1)
-        prod.stock++
+        prod.stockVariable++
         cargarCarrito(carrito) 
     }
 
@@ -490,8 +510,6 @@ function ordenarDescendente(){
 
     else if (rango.length !== 0 && coincidencias.length !== 0){
         let ordenarDesc =  rango.sort((a, b) => b.precio - a.precio)
-        console.log(rango)
-        console.log(ordenarDesc)
         cargarProductos(ordenarDesc)
     }
 
@@ -500,12 +518,53 @@ function ordenarDescendente(){
         cargarProductos(ordenarDesc)
        
     }
+
+    else if(rango.length === 0 && rangoTres.length !== 0){
+        let ordenarDesc =  rangoTres.sort((a, b) => b.precio - a.precio)
+        cargarProductos(ordenarDesc)  
     }
+
+    else if(rango.length === 0 && coincidencias.length === 0){
+        let ordenarDesc =  productos.sort((a, b) => b.precio - a.precio)
+        cargarProductos(ordenarDesc)  
+    }
+ }
  
 
 function ordenarAscendente(){
     let ordenarAsc =  productos.sort((a, b) => a.precio - b.precio)
     cargarProductos(ordenarAsc)
+
+    if (coincidencias.length !== 0 && rango.length === 0 && rangoDos.length === 0){
+        let ordenarAsc =  coincidencias.sort((a, b) => a.precio - b.precio)
+        cargarProductos(ordenarAsc)
+        
+    }
+
+    else if (rango.length !== 0 && coincidencias.length !== 0){
+        let ordenarAsc =  rango.sort((a, b) => a.precio - b.precio)
+        cargarProductos(ordenarAsc)
+    }
+
+    else if(coincidencias.length === 0 && rangoDos.length !== 0){
+        let ordenarAsc =  rangoDos.sort((a, b) => a.precio - b.precio)
+        cargarProductos(ordenarAsc)
+       
+    }
+
+    else if(rango.length === 0 && rangoTres.length !== 0){
+        let ordenarAsc =  rangoTres.sort((a, b) => a.precio - b.precio)
+        cargarProductos(ordenarAsc)  
+    }
+
+    else if(rango.length === 0 && coincidencias.length === 0){
+        let ordenarAsc =  productos.sort((a, b) => a.precio - b.precio)
+        cargarProductos(ordenarAsc)  
+    }
+
+    else {
+        
+    }
 }
 
 
@@ -532,10 +591,10 @@ function noHayCoincidencias(){
 
 
 function mostrarProducto(id){
-    const bodyRango = document.getElementById("formRangoPrecios")
-    bodyRango.innerHTML=""
-    const bodyOrdenar = document.getElementById("ordenar")
-    bodyOrdenar.innerHTML=""
+    document.getElementById("formRangoPrecios").style = "display:none"
+    
+    document.getElementById("ordenar").style = "display:none"
+   
     nodoProductos = document.getElementById("gridProductos")
     nodoProductos.innerHTML = ""
     let productoSeleccionado = productos.filter((p) => p.id === id)
@@ -613,7 +672,7 @@ function mostrarProducto(id){
     function disponible(array,id){
         const btnPS =  productos.find((element) => element.id === id)
         
-        if (btnPS.stock < 1 ){
+        if (btnPS.stockVariable < 1 ){
             return "Sin stock"
         }
     
@@ -627,9 +686,9 @@ function mostrarProducto(id){
     let click = 0
     function carritoPS(){
         click++
-        let divCarrito = document.getElementById("carrito")
+        
         let cantClicks = (click % 2 === 0) ? true : false
-        cantClicks ? cargarCarrito(carrito) : divCarrito.innerHTML =""  
+        cantClicks ? document.getElementById("carrito").style = "display:block"   : document.getElementById("carrito").style = "display:none"  
     }
 }
 

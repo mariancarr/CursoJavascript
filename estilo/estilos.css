@@ -17,12 +17,12 @@
 
 
 #logo{
-    cursor: pointer;
+    
     width: 50%;
 }
 
 #logo:hover{
-    opacity: 0.85;
+    
     cursor: pointer;
     transition: all 0.2s linear;
 }
@@ -321,3 +321,6 @@
     margin-top: 70px;
 }
 
+#sinStockCarrito{
+    color: rgb(243, 44, 9);
+}
