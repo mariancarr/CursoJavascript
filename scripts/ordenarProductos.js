@@ -7,6 +7,11 @@ function ordenarDescendente(){
         
     }
 
+    else if(coincidencias.length !== 0 && rangoDos.length !== 0){
+        let ordenarDesc =  coincidencias.sort((a, b) => b.precio - a.precio)
+        cargarProductos(ordenarDesc)
+    }
+
     else if (rango.length !== 0 && coincidencias.length !== 0){
         let ordenarDesc =  rango.sort((a, b) => b.precio - a.precio)
         cargarProductos(ordenarDesc)
@@ -27,6 +32,8 @@ function ordenarDescendente(){
         let ordenarDesc =  productos.sort((a, b) => b.precio - a.precio)
         cargarProductos(ordenarDesc)  
     }
+
+    
  }
  
 
@@ -38,6 +45,11 @@ function ordenarAscendente(){
         let ordenarAsc =  coincidencias.sort((a, b) => a.precio - b.precio)
         cargarProductos(ordenarAsc)
         
+    }
+
+    else if(coincidencias.length !== 0 && rangoDos.length !== 0){
+        let ordenarDesc =  coincidencias.sort((a, b) => a.precio - b.precio)
+        cargarProductos(ordenarDesc)
     }
 
     else if (rango.length !== 0 && coincidencias.length !== 0){
@@ -61,7 +73,8 @@ function ordenarAscendente(){
         cargarProductos(ordenarAsc)  
     }
 
-    else {
-        
+    else if(coincidencias.length !== 0 && rangoDos.length !== 0){
+        let ordenarAsc =  coincidencias.sort((a, b) => a.precio - b.precio)
+        cargarProductos(ordenarAsc)
     }
 }
