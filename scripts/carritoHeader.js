@@ -18,3 +18,4 @@ function carritoHeader(array){
         cantClicks ? document.getElementById("carrito").style = "display:block"   : document.getElementById("carrito").style = "display:none"  
     }
 }
+
