@@ -1,0 +1,6 @@
+let rango = []
+let rangoDos = []
+let rangoTres = []
+let coincidencias = []
+let coincidenciasDos = []
+let carrito = []

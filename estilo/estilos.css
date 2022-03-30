@@ -1,11 +1,20 @@
-
-
 @import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@300&display=swap');
 .bdy{background-color: rgb(240, 240, 240);}
-#cointainerHeader{
-    background-color: rgb(70, 136, 136);
+
+#header{
     padding: 10px;
+    background-color: rgb(70, 136, 136);
+    
 }
+
+#cointainerHeader{
+    display: flex;
+    justify-content: center;
+    align-items:center;
+}
+
+
+
 
 #rowHeader{
     display: flex;
@@ -17,18 +26,47 @@
 
 
 #logo{
-    
-    width: 50%;
+    width: 100%;
 }
 
 #logo:hover{
-    
     cursor: pointer;
     transition: all 0.2s linear;
 }
 
+#headerinput{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
 
+#indicator{
+    position:relative;
+    margin-bottom: 25px;
+}
 
+#indicator__carrito{
+    position: absolute;
+    color: rgb(255, 255, 255);
+}
+
+#indicator__value{
+    background-color: tomato;
+    padding: 0px 6px;
+    border-radius: 50%;
+    color: white;
+    font-size: 0.6rem;
+    z-index: 0;
+    
+    position: absolute;
+    margin-left: 20px;
+   
+}
+
+#bodyContenido{
+    margin-top: 100px;
+}
 #cardProd{
     box-shadow: 0px 0px 10px 2px  rgb(226, 226, 226);
     transition: all 0.2s linear;
