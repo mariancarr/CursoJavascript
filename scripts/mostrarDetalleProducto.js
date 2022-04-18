@@ -3,8 +3,6 @@
 function mostrarProducto(id){
     document.getElementById("formRangoPrecios").style = "display:none"
     
-    document.getElementById("ordenar").style = "display:none"
-   
     nodoProductos = document.getElementById("gridProductos")
     nodoProductos.innerHTML = ""
     let productoSeleccionado = productos.filter((p) => p.id === id)

@@ -3,7 +3,7 @@
 function cargarProductos(array){
     document.getElementById("formRangoPrecios").style = "display:block"
     
-    document.getElementById("ordenar").style = "display:block"
+    
     let nodoProductos = document.getElementById("gridProductos")
     nodoProductos.innerHTML = ""
     
@@ -46,7 +46,7 @@ function cargarProductos(array){
                           
     })
 
-    function disponible(array,id){
+    function disponible(a,id){
         const dispo =  productos.find((element) => element.id === id)
         
         if (dispo.stockVariable < 1 ){
@@ -54,7 +54,7 @@ function cargarProductos(array){
         }
     
         else{
-            return `<button class="btn btn-success" id="agregar${array.id}">
+            return `<button class="btn btn-success" id="agregar${a.id}">
                         Agregar
                     </button>`
         }
@@ -62,29 +62,6 @@ function cargarProductos(array){
 }
 
 
-
-      
-
-
-
-function btnAccion(){
-    const btnRangos = document.getElementById("buscarPrecios")
-    btnRangos.addEventListener("click", () => {tomarValores()})
-
-    const btnDescendente = document.getElementById("ordenarDescendente")
-    btnDescendente.addEventListener("click", () => {ordenarDescendente()})
-
-    const btnAscendente = document.getElementById("ordenarAscendente")
-    btnAscendente.addEventListener("click", () => {ordenarAscendente()})
-
-    
-    const btnFiltro = document.getElementById("btnBuscarCoincidencias")
-    btnFiltro.addEventListener("click", () => {buscarCoincidencias()})
-
-    const menuPrincipal = document.getElementById("logo")
-    menuPrincipal.addEventListener("click", () => {cargarProductos(productos)})
-
-}
 
 /* verifico la disponibilidad de los productos en el local Storage*/
 function verificarProductosStorage(){

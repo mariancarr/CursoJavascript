@@ -240,6 +240,5 @@ function obtenerPrecioTotal(array){
         precioTotalCarrito += producto.precio * producto.cantidad
     }
     
-    return precioTotalCarrito
-    
+    return precioTotalCarrito   
 }
